@@ -1,0 +1,147 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+#gerenciador-container {
+    background-color: #fff;
+    padding: 20px;
+    width: 80vw;
+    margin: 10vh 10vw;
+    border-radius: 33px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Seletor de id #form que contém todos os campos de input */
+#form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+/* Divisões que contêm cada par de label e input */
+#inputs-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Estilo da label */
+#inputs-row label {
+    width: 200px;
+    /* Largura da label */
+    text-align: right;
+    /* Alinhamento do texto à direita */
+}
+
+/* Estilo do input */
+#inputs-row input {
+    flex: 1;
+    padding: 5px;
+    border: none;
+    outline: none;
+    border-bottom: 1px gray solid;
+}
+
+h1,
+h2,
+h3 {
+    color: #333;
+}
+
+/* Centralizar o conteúdo horizontalmente */
+main {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* Estilizar os selects e botões */
+select,
+button {
+    margin: 5px;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    display: block;
+    outline: none;
+    width: 200px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    appearance: none;
+    /* Remove a seta padrão do select */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    /* Pode adicionar uma imagem para a seta se preferir */
+    background-position: right center;
+    background-repeat: no-repeat;
+}
+
+/* Estilizando as opções quando o select é aberto */
+select:focus {
+    outline: none;
+    /* Remover a borda de foco do select */
+}
+
+/* Estilizando as opções do select aberto */
+select option {
+    background-color: #fff;
+    /* Cor de fundo das opções */
+    color: #333;
+    /* Cor do texto das opções */
+    padding: 8px;
+    cursor: pointer;
+}
+
+/* Estilizando a opção selecionada */
+select option:checked {
+    background-color: #f0f0f0;
+    /* Cor de fundo da opção selecionada */
+    font-weight: bold;
+    /* Opção selecionada em negrito */
+}
+
+input {
+    border: none;
+    outline: none;
+    border-bottom: 1px gray solid;
+}
+
+table {
+    border-collapse: collapse;
+    margin: 20px auto;
+}
+
+div {
+    margin-bottom: 20px;
+}
+
+th,
+td {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+}
+
+button {
+    background-color: #5cc9f5;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    height: 40px;
+    width: 240px;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #6495ed;
+}
