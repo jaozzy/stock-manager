@@ -1,2 +1,7 @@
 # stock-manager
-Gerenciador de Estoque com JavaScript // Stock Manager with JavaScript
+Stock Manager with JavaScript
+
+<h1>Avaible in:</h1>
+<pre>
+  <code>jaozzy.github.io/stock-manager</code>
+</pre>
