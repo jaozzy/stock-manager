@@ -179,7 +179,7 @@ let Estoque = {
         let produtoEncontrado = Array.from(this.produtos).find(produto => produto.nome.toLowerCase() === nomeBuscado.toLowerCase());
 
         if (!produtoEncontrado) {
-            // Removido: nomeBuscado.value = '';
+            nomeBuscado.value = '';
             document.getElementById('novo-nome-produto').value = '';
             document.getElementById('novo-preco-produto').value = '';
             document.getElementById('nova-quantidade-produto').value = '';
@@ -197,23 +197,6 @@ let Estoque = {
             let novoPrecoInput = parseFloat(document.getElementById('novo-preco-produto').value);
             let novaQuantidadeInput = parseInt(document.getElementById('nova-quantidade-produto').value);
             let novaDescricaoInput = document.getElementById('nova-descricao-produto');
-
-            // Verifica se o valor inserido pelo usuário para a quantidade do produto é um número inteiro
-            if (Number.isNaN(novaQuantidadeInput) || novaQuantidadeInput !== parseInt(novaQuantidadeInput)) {
-
-                document.getElementById('novo-nome-produto').value = '';
-                document.getElementById('novo-preco-produto').value = '';
-                document.getElementById('nova-quantidade-produto').value = '';
-                document.getElementById('nova-descricao-produto').value = '';
-
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Erro!',
-                    text: 'O valor da quantidade deve ser um número inteiro.',
-                    confirmButtonColor: '#6495ed'
-                });
-                return;
-            }
 
             novosDadosDiv.style.display = 'block';
 
