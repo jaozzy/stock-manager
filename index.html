@@ -7,7 +7,9 @@
         <link rel="stylesheet" href="style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap"
+            rel="stylesheet">
         <title>Gerenciador de Estoque</title>
     </head>
 
@@ -25,7 +27,7 @@
                     <option value="adicionar-produto">Adicionar Produto</option>
                     <option value="listar-produtos">Listar Produtos</option>
                     <option value="buscar-produto">Buscar um Produto</option>
-                    <option value="autalizar-produto">Atualizar um Produto</option>
+                    <option value="atualizar-produto">Atualizar um Produto</option>
                     <option value="relatorio-estoque">Exibir Relatório do
                         Estoque</option>
                 </select>
@@ -47,7 +49,8 @@
                                 Produto:</label>
                             <input type="number" name="quantidade-produto"
                                 id="quantidade-produto" required
-                                autocomplete="off">
+                                autocomplete="off"
+                                placeholder="Valores decimais terão a casa decimal ignorada">
                             <label for="descricao-produto">Descrição do Produto:</label>
                             <input type="text" name="descricao-produto"
                                 id="descricao-produto" required
@@ -100,38 +103,44 @@
 
                 </div>
 
-                <div id="autalizar-produto" style="display: none;">
+                <div id="atualizar-produto" style="display: none;">
                     <h3>Atualizar Produto</h3>
-                    <label for="nome-busca">Buscar Produto pelo Nome:</label>
-                    <input type="text" name="nome-busca" id="nome-busca">
+                    <div id="busca-atualizar">
+                        <label for="nome-busca-atualizar">Buscar Produto pelo
+                            Nome:</label>
+                        <input type="text" name="nome-busca-atualizar"
+                            id="nome-busca-atualizar">
+                        <button type="button" onclick="Estoque.buscarProduto()">Buscar
+                            Produto</button>
+                    </div>
+
                     <div id="novos-dados" style="display: none;">
                         <div id="inputs-row">
                             <label for="novo-nome-produto">Novo Nome para o
                                 produto:</label>
                             <input type="text" name="novo-nome-produto"
-                                id="novo-nome-produto"
-                                placeholder="Deixe em branco para manter o nome atual...">
+                                id="novo-nome-produto">
                             <label for="novo-preco-produto">Novo Preço para o
                                 produto:</label>
                             <input type="number" name="novo-preco-produto"
-                                id="novo-preco-produto"
-                                placeholder="Deixe em branco para manter o preço atual...">
+                                id="novo-preco-produto">
                         </div>
                         <div id="inputs-row">
                             <label for="nova-quantidade-produto">Nova Quantidade
                                 no Estoque para o produto:</label>
                             <input type="number" name="nova-quantidade-produto"
-                                id="nova-quantidade-produto"
-                                placeholder="Deixe em branco para manter a quantidade atual...">
+                                id="nova-quantidade-produto">
                             <label for="nova-descricao-produto">Nova Descrição
                                 para o produto:</label>
                             <input type="text" name="nova-descricao-produto"
-                                id="nova-descricao-produto"
-                                placeholder="Deixe em branco para manter a descrição atual...">
+                                id="nova-descricao-produto">
                         </div>
+
+                        <button type="button"
+                            onclick="Estoque.atualizarProduto()"
+                            id="atualizar-button">Atualizar Dados</button>
+
                     </div>
-                    <button type="button" onclick="Estoque.atualizarProduto()"
-                        id="atualizar-button">Atualizar Dados</button>
                 </div>
 
                 <div id="relatorio-estoque" style="display: none;">

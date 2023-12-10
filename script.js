@@ -7,9 +7,21 @@ let Estoque = {
 
         // Coleta as informações dos produtos inseridas nos inputs da página
         let nomeProduto = document.getElementById('nome-produto').value;
-        let precoProduto = document.getElementById('preco-produto').value;
-        let quantidadeProduto = document.getElementById('quantidade-produto').value;
+        let precoProduto = parseFloat(document.getElementById('preco-produto').value);
+        let quantidadeProduto = parseInt(document.getElementById('quantidade-produto').value);
         let descricaoProduto = document.getElementById('descricao-produto').value;
+
+        // Verifica se o valor inserido pelo usuário para a quantidade do produto é um número inteiro
+        if (!Number.isInteger(quantidadeProduto)) {
+            document.getElementById('quantidade-produto').value = '';
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro!',
+                text: 'A quantidade do produto deve ser um número inteiro maior que zero.',
+                confirmButtonColor: '#6495ed'
+            });
+            return;
+        }
 
         // Verifica se as informações foram inseridas corretamente antes de cadastrar o produto
         if (!validarInputs()) {
@@ -18,10 +30,10 @@ let Estoque = {
             // Verifica se o produto já existe no estoque
             for (let produto of this.produtos) {
                 if (produto.nome === nomeProduto) {
-                    nomeProduto.value = '';
-                    precoProduto.value = '';
-                    quantidadeProduto.value = '';
-                    descricaoProduto.value = '';
+                    document.getElementById('nome-produto').value = '';
+                    document.getElementById('preco-produto').value = '';
+                    document.getElementById('quantidade-produto').value = '';
+                    document.getElementById('descricao-produto').value = '';
                     // Popup de erro com o framework SweetAlert
                     Swal.fire({
                         icon: 'error',
@@ -43,6 +55,13 @@ let Estoque = {
 
             // Adiciona o produto ao estoque
             this.produtos.add(novoProduto);
+
+            // Limpa os campos de input
+            document.getElementById('nome-produto').value = '';
+            document.getElementById('preco-produto').value = '';
+            document.getElementById('quantidade-produto').value = '';
+            document.getElementById('descricao-produto').value = '';
+
             // Popup de sucesso com o framework SweetAlert
             Swal.fire({
                 icon: 'success',
@@ -52,6 +71,10 @@ let Estoque = {
             });
 
         }
+
+        // Desmarca a opção selecionada no select após a operação
+        document.getElementById('options').selectedIndex = 0;
+
     },
 
     listarProdutos: function () {
@@ -97,54 +120,70 @@ let Estoque = {
     },
 
     buscarProduto: function () {
-        let nomeBuscado = document.getElementById('nome-busca').value;
-        let tabela = document.getElementById('tabelaProdutoBusca');
-        let tbody = tabela.querySelector('tbody');
-        tbody.innerHTML = '';
 
-        let produtosEncontrados = Array.from(this.produtos).filter(produto => produto.nome === nomeBuscado);
+        if (document.getElementById('buscar-produto').style.display !== 'none') {
+            let nomeBuscado = document.getElementById('nome-busca').value;
+            let tabela = document.getElementById('tabelaProdutoBusca');
+            let tbody = tabela.querySelector('tbody');
+            tbody.innerHTML = '';
 
-        if (produtosEncontrados.length === 0) {
-            nomeBuscado.value = '';
-            Swal.fire({
-                icon: 'error',
-                title: 'Erro!',
-                text: 'Nenhum produto encontrado com o nome buscado.',
-                confirmButtonColor: '#6495ed'
-            });
-        } else {
-            produtosEncontrados.forEach(produto => {
-                let newRow = document.createElement('tr');
-                newRow.innerHTML = `
+            let produtosEncontrados = Array.from(this.produtos).filter(produto => produto.nome === nomeBuscado);
+
+            if (produtosEncontrados.length === 0) {
+                nomeBuscado.value = '';
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro!',
+                    text: 'Nenhum produto encontrado com o nome buscado.',
+                    confirmButtonColor: '#6495ed'
+                });
+            } else {
+                produtosEncontrados.forEach(produto => {
+                    let newRow = document.createElement('tr');
+                    newRow.innerHTML = `
                     <td>${produto.nome}</td>
                     <td>${produto.preco}</td>
                     <td>${produto.quantidade}</td>
                     <td>${produto.descricao}</td>
                 `;
-                tbody.appendChild(newRow);
-            });
+                    tbody.appendChild(newRow);
+                });
 
-            tabela.style.display = 'table';
+                tabela.style.display = 'table';
+            }
+        } else if (document.getElementById('atualizar-produto').style.display !== 'none') {
+            let nomeBuscado = document.getElementById('nome-busca-atualizar').value;
+
+            let produtosEncontrados = Array.from(this.produtos).filter(produto => produto.nome === nomeBuscado);
+
+            if (produtosEncontrados.length === 0) {
+                nomeBuscado.value = '';
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro!',
+                    text: 'Nenhum produto encontrado com o nome buscado.',
+                    confirmButtonColor: '#6495ed'
+                });
+            } else {
+                document.getElementById('busca-atualizar').style.display = 'none';
+                document.getElementById('novos-dados').style.display = 'block';
+            }
         }
+
     },
 
     atualizarProduto: function () {
-        let nomeBuscado = document.getElementById('nome-busca').value.trim();
-        let novosDadosDiv = document.getElementById('novos-dados');
-        let novoNomeInput = document.getElementById('novo-nome-produto');
-        let novoPrecoInput = document.getElementById('novo-preco-produto');
-        let novaQuantidadeInput = document.getElementById('nova-quantidade-produto');
-        let novaDescricaoInput = document.getElementById('nova-descricao-produto');
+        let nomeBuscado = document.getElementById('nome-busca-atualizar').value;
 
-        // Busca o produto pelo nome
+        // Busca o produto pelo nome (ignorando diferenças entre maiúsculas e minúsculas)
         let produtoEncontrado = Array.from(this.produtos).find(produto => produto.nome.toLowerCase() === nomeBuscado.toLowerCase());
 
         if (!produtoEncontrado) {
-            nomeBuscado.value = '';
-            novoNomeInput.value = '';
-            novoPrecoInput.value = '';
-            novaQuantidadeInput.value = '';
-            novaDescricaoInput.value = '';
+            // Removido: nomeBuscado.value = '';
+            document.getElementById('novo-nome-produto').value = '';
+            document.getElementById('novo-preco-produto').value = '';
+            document.getElementById('nova-quantidade-produto').value = '';
+            document.getElementById('nova-descricao-produto').value = '';
             Swal.fire({
                 icon: 'error',
                 title: 'Erro',
@@ -153,6 +192,29 @@ let Estoque = {
             });
             novosDadosDiv.style.display = 'none';
         } else {
+            let novosDadosDiv = document.getElementById('novos-dados');
+            let novoNomeInput = document.getElementById('novo-nome-produto');
+            let novoPrecoInput = parseFloat(document.getElementById('novo-preco-produto').value);
+            let novaQuantidadeInput = parseInt(document.getElementById('nova-quantidade-produto').value);
+            let novaDescricaoInput = document.getElementById('nova-descricao-produto');
+
+            // Verifica se o valor inserido pelo usuário para a quantidade do produto é um número inteiro
+            if (Number.isNaN(novaQuantidadeInput) || novaQuantidadeInput !== parseInt(novaQuantidadeInput)) {
+
+                document.getElementById('novo-nome-produto').value = '';
+                document.getElementById('novo-preco-produto').value = '';
+                document.getElementById('nova-quantidade-produto').value = '';
+                document.getElementById('nova-descricao-produto').value = '';
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro!',
+                    text: 'O valor da quantidade deve ser um número inteiro.',
+                    confirmButtonColor: '#6495ed'
+                });
+                return;
+            }
+
             novosDadosDiv.style.display = 'block';
 
             // Preenche os inputs com os dados do produto encontrado
@@ -163,10 +225,21 @@ let Estoque = {
 
             // Atualiza os dados do produto se novos dados foram fornecidos
             document.getElementById('atualizar-button').onclick = function () {
-                let novoNome = novoNomeInput.value.trim();
-                let novoPreco = novoPrecoInput.value.trim();
-                let novaQuantidade = novaQuantidadeInput.value.trim();
-                let novaDescricao = novaDescricaoInput.value.trim();
+                let novoNome = novoNomeInput.value;
+                let novoPreco = novoPrecoInput.value;
+                let novaQuantidade = novaQuantidadeInput.value;
+                let novaDescricao = novaDescricaoInput.value;
+
+                // Verifica se o valor inserido pelo usuário para a quantidade do produto é inteiro
+                if (!Number.isInteger(quantidadeProduto)) {
+                    // Popup de erro com o framework SweetAlert
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro!',
+                        text: 'O valor da quantidade deve ser um número inteiro.',
+                        confirmButtonColor: '#6495ed'
+                    });
+                }
 
                 if (novoNome === '' && novoPreco === '' && novaQuantidade === '' && novaDescricao === '') {
                     Swal.fire({
@@ -189,6 +262,12 @@ let Estoque = {
                         produtoEncontrado.descricao = novaDescricao;
                     }
 
+                    // Limpa os campos de input
+                    document.getElementById('nome-produto').value = '';
+                    document.getElementById('preco-produto').value = '';
+                    document.getElementById('quantidade-produto').value = '';
+                    document.getElementById('descricao-produto').value = '';
+
                     Swal.fire({
                         icon: 'success',
                         title: 'Sucesso',
@@ -198,7 +277,8 @@ let Estoque = {
                 }
             };
 
-        };
+        }
+
     },
 
     gerarRelatorio: function () {
@@ -248,7 +328,7 @@ function mostrarOpcaoSelecionada() {
         'adicionar-produto',
         'listar-produtos',
         'buscar-produto',
-        'autalizar-produto',
+        'atualizar-produto',
         'relatorio-estoque'
     ];
 
@@ -262,53 +342,26 @@ function mostrarOpcaoSelecionada() {
 
 // Método para verificar se o formulário de criação ou atualização de produto foi totalmente preenchido
 function validarInputs() {
-    const criarProduto = document.getElementById('adicionar-produto');
-    const atualizarProduto = document.getElementById('autalizar-produto');
 
-    if (criarProduto.style.display !== 'none') {
-        const nome = document.getElementById('nome-produto').value;
-        const preco = document.getElementById('preco-produto').value;
-        const quantidade = document.getElementById('quantidade-produto').value;
-        const descricao = document.getElementById('descricao-produto').value;
+    const nome = document.getElementById('nome-produto').value;
+    const preco = document.getElementById('preco-produto').value;
+    const quantidade = document.getElementById('quantidade-produto').value;
+    const descricao = document.getElementById('descricao-produto').value;
 
-        if (nome === '' || preco === '' || preco <= 0 || quantidade === '' || quantidade <= 0 || descricao === '') {
-            Swal.fire({
-                icon: 'error',
-                title: 'Preenchimento incorreto!',
-                text: 'Preencha todos os campos corretamente.',
-                confirmButtonColor: '#6495ed'
-            }).then(() => {
-                // Limpa os campos se houver erro de preenchimento
-                document.getElementById('nome-produto').value = '';
-                document.getElementById('preco-produto').value = '';
-                document.getElementById('quantidade-produto').value = '';
-                document.getElementById('descricao-produto').value = '';
-            });
-            return false;
-        }
-    }
-
-    if (atualizarProduto.style.display !== 'none') {
-        const novoNome = document.getElementById('novo-nome-produto').value;
-        const novoPreco = document.getElementById('novo-preco-produto').value;
-        const novaQuantidade = document.getElementById('nova-quantidade-produto').value;
-        const novaDescricao = document.getElementById('nova-descricao-produto').value;
-
-        if (novoNome === '' || novoPreco === '' || novoPreco <= 0 || novaQuantidade === '' || novaQuantidade <= 0 || novaDescricao === '') {
-            Swal.fire({
-                icon: 'error',
-                title: 'Preenchimento incorreto!',
-                text: 'Preencha todos os campos corretamente.',
-                confirmButtonColor: '#6495ed'
-            }).then(() => {
-                // Limpa os campos se houver erro de preenchimento
-                document.getElementById('novo-nome-produto').value = '';
-                document.getElementById('novo-preco-produto').value = '';
-                document.getElementById('nova-quantidade-produto').value = '';
-                document.getElementById('nova-descricao-produto').value = '';
-            });
-            return false;
-        }
+    if (nome === '' || preco === '' || preco <= 0 || quantidade === '' || quantidade <= 0 || descricao === '') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Preenchimento incorreto!',
+            text: 'Preencha todos os campos corretamente.',
+            confirmButtonColor: '#6495ed'
+        }).then(() => {
+            // Limpa os campos se houver erro de preenchimento
+            document.getElementById('nome-produto').value = '';
+            document.getElementById('preco-produto').value = '';
+            document.getElementById('quantidade-produto').value = '';
+            document.getElementById('descricao-produto').value = '';
+        });
+        return false;
     }
 
     return true;
