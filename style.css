@@ -75,6 +75,7 @@ button {
 
 select {
     margin-bottom: +20px;
+    margin-top: +20px;
 }
 
 input {
@@ -100,14 +101,16 @@ td {
 
 button {
     background-color: #5cc9f5;
-    color: #fff;
+    color: #333;
+    font-weight: bold;
     cursor: pointer;
     border: none;
     height: 40px;
     width: 240px;
     margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 button:hover {
-    background-color: #6495ed;
+    scale: 1.01;
 }
