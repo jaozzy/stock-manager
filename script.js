@@ -18,7 +18,11 @@ let Estoque = {
                 icon: 'error',
                 title: 'Erro!',
                 text: 'A quantidade do produto deve ser um número inteiro maior que zero.',
-                confirmButtonColor: '#6495ed'
+                confirmButtonColor: '#6495ed',
+                }).then((result) => {
+                    if (result.isConfirmed || result.isDismissed) {
+                        finalizarOperacao();
+                    }
             });
             return;
         }
@@ -39,7 +43,11 @@ let Estoque = {
                         icon: 'error',
                         title: 'Erro!',
                         text: 'O produto já existe no estoque.',
-                        confirmButtonColor: '#6495ed'
+                        confirmButtonColor: '#6495ed',
+                        }).then((result) => {
+                            if (result.isConfirmed || result.isDismissed) {
+                                finalizarOperacao();
+                            }
                     });
                     return;
                 }
@@ -55,12 +63,6 @@ let Estoque = {
 
             // Adiciona o produto ao estoque
             this.produtos.add(novoProduto);
-
-            // Limpa os campos de input
-            document.getElementById('nome-produto').value = '';
-            document.getElementById('preco-produto').value = '';
-            document.getElementById('quantidade-produto').value = '';
-            document.getElementById('descricao-produto').value = '';
 
             // Popup de sucesso com o framework SweetAlert
             Swal.fire({
@@ -81,15 +83,16 @@ let Estoque = {
         const tabela = document.getElementById('tabelaProdutos');
         const tbody = tabela.querySelector('tbody');
 
-        console.log("Quantidade de produtos:", this.produtos.size);
-
         if (this.produtos.size === 0) {
-            console.log("Não há produtos no estoque.");
             Swal.fire({
                 icon: 'error',
                 title: 'Erro!',
                 text: 'Não há nenhum produto no estoque.',
-                confirmButtonColor: '#6495ed'
+                confirmButtonColor: '#6495ed',
+                }).then((result) => {
+                    if (result.isConfirmed || result.isDismissed) {
+                        finalizarOperacao();
+                    }
             });
         } else {
 
@@ -135,7 +138,11 @@ let Estoque = {
                     icon: 'error',
                     title: 'Erro!',
                     text: 'Nenhum produto encontrado com o nome buscado.',
-                    confirmButtonColor: '#6495ed'
+                    confirmButtonColor: '#6495ed',
+                    }).then((result) => {
+                        if (result.isConfirmed || result.isDismissed) {
+                            finalizarOperacao();
+                        }
                 });
             } else {
                 produtosEncontrados.forEach(produto => {
@@ -162,7 +169,11 @@ let Estoque = {
                     icon: 'error',
                     title: 'Erro!',
                     text: 'Nenhum produto encontrado com o nome buscado.',
-                    confirmButtonColor: '#6495ed'
+                    confirmButtonColor: '#6495ed',
+                    }).then((result) => {
+                        if (result.isConfirmed || result.isDismissed) {
+                            finalizarOperacao();
+                        }
                 });
             } else {
                 document.getElementById('busca-atualizar').style.display = 'none';
@@ -188,9 +199,12 @@ let Estoque = {
                 icon: 'error',
                 title: 'Erro',
                 text: 'Produto não encontrado.',
-                confirmButtonColor: '#6495ed'
+                confirmButtonColor: '#6495ed',
+                }).then((result) => {
+                    if (result.isConfirmed || result.isDismissed) {
+                        finalizarOperacao();
+                    }
             });
-            novosDadosDiv.style.display = 'none';
         } else {
             let novosDadosDiv = document.getElementById('novos-dados');
             let novoNomeInput = document.getElementById('novo-nome-produto');
@@ -202,32 +216,21 @@ let Estoque = {
 
             // Preenche os inputs com os dados do produto encontrado
             novoNomeInput.value = produtoEncontrado.nome;
-            novoPrecoInput.value = produtoEncontrado.preco;
-            novaQuantidadeInput.value = produtoEncontrado.quantidade;
+            novoPrecoInput = produtoEncontrado.preco;
+            novaQuantidadeInput = produtoEncontrado.quantidade;
             novaDescricaoInput.value = produtoEncontrado.descricao;
 
             // Atualiza os dados do produto se novos dados foram fornecidos
             document.getElementById('atualizar-button').onclick = function () {
                 let novoNome = novoNomeInput.value;
-                let novoPreco = novoPrecoInput.value;
-                let novaQuantidade = novaQuantidadeInput.value;
+                let novoPreco = novoPrecoInput;
+                let novaQuantidade = novaQuantidadeInput;
                 let novaDescricao = novaDescricaoInput.value;
-
-                // Verifica se o valor inserido pelo usuário para a quantidade do produto é inteiro
-                if (!Number.isInteger(quantidadeProduto)) {
-                    // Popup de erro com o framework SweetAlert
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Erro!',
-                        text: 'O valor da quantidade deve ser um número inteiro.',
-                        confirmButtonColor: '#6495ed'
-                    });
-                }
 
                 if (novoNome === '' && novoPreco === '' && novaQuantidade === '' && novaDescricao === '') {
                     Swal.fire({
                         icon: 'warning',
-                        title: 'Aviso',
+                        title: 'Aviso!',
                         text: 'Preencha pelo menos um campo para atualizar os dados do produto.',
                         confirmButtonColor: '#6495ed'
                     });
@@ -245,17 +248,15 @@ let Estoque = {
                         produtoEncontrado.descricao = novaDescricao;
                     }
 
-                    // Limpa os campos de input
-                    document.getElementById('nome-produto').value = '';
-                    document.getElementById('preco-produto').value = '';
-                    document.getElementById('quantidade-produto').value = '';
-                    document.getElementById('descricao-produto').value = '';
-
                     Swal.fire({
                         icon: 'success',
-                        title: 'Sucesso',
+                        title: 'Sucesso!',
                         text: 'Dados do produto atualizados com sucesso.',
-                        confirmButtonColor: '#6495ed'
+                        confirmButtonColor: '#6495ed',
+                        }).then((result) => {
+                            if (result.isConfirmed || result.isDismissed) {
+                                finalizarOperacao();
+                            }
                     });
                 }
             };
@@ -278,7 +279,11 @@ let Estoque = {
                 icon: 'error',
                 title: 'Erro!',
                 text: 'Não há nenhum produto no estoque para gerar o relatório.',
-                confirmButtonColor: '#6495ed'
+                confirmButtonColor: '#6495ed',
+                }).then((result) => {
+                    if (result.isConfirmed || result.isDismissed) {
+                        finalizarOperacao();
+                    }
             });
             table.style.display = 'none';
         } else {
@@ -348,4 +353,43 @@ function validarInputs() {
     }
 
     return true;
+}
+
+// Função para reiniciar a página após o fim de uma operação
+
+function finalizarOperacao() {
+
+    // Desmarca a opção selecionada pelo usuário no select
+    let opcaoSelecionadaSelect = document.getElementById('options');
+
+    opcaoSelecionadaSelect.selectedIndex = 0;
+
+    // Coleta as páginas existentes pelo ID
+    const add_produto = document.getElementById('adicionar-produto');
+    const list_produto = document.getElementById('listar-produtos');
+    const buscar_produto = document.getElementById('buscar-produto');
+    const atualizar_produto = document.getElementById('atualizar-produto');
+    const relatorio = document.getElementById('relatorio-estoque');
+
+    if (add_produto.style.display !==  'none') {
+        document.getElementById('nome-produto').value = '';
+        document.getElementById('preco-produto').value = '';
+        document.getElementById('quantidade-produto').value = '';
+        document.getElementById('descricao-produto').value = '';
+        add_produto.style.display = 'none';
+    } else if (list_produto.style.display !== 'none') {
+        list_produto.style.display = 'none';
+    } else if (buscar_produto.style.display  !== 'none') {
+        document.getElementById('nome-busca').value = '';
+        buscar_produto.style.display = 'none';
+    } else if (atualizar_produto.style.display !== 'none') {
+        document.getElementById('nome-busca-atualizar').value = '';
+        document.getElementById('novo-nome-produto').value = '';
+        document.getElementById('novo-preco-produto').value = '';
+        document.getElementById('nova-quantidade-produto').value = '';
+        document.getElementById('nova-descricao-produto').value = '';
+        atualizar_produto.style.display = 'none';
+    } else if (relatorio.style.display !== 'none') {
+        relatorio.style.display  = 'none';
+    }
 }

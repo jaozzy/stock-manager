@@ -60,8 +60,7 @@ main {
     text-align: center;
 }
 
-/* Estilizar os selects e botões */
-select,
+/* Estilizar os botões */
 button {
     margin: 5px;
     padding: 8px;
@@ -75,40 +74,7 @@ button {
 }
 
 select {
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    appearance: none;
-    /* Remove a seta padrão do select */
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    /* Pode adicionar uma imagem para a seta se preferir */
-    background-position: right center;
-    background-repeat: no-repeat;
-}
-
-/* Estilizando as opções quando o select é aberto */
-select:focus {
-    outline: none;
-    /* Remover a borda de foco do select */
-}
-
-/* Estilizando as opções do select aberto */
-select option {
-    background-color: #fff;
-    /* Cor de fundo das opções */
-    color: #333;
-    /* Cor do texto das opções */
-    padding: 8px;
-    cursor: pointer;
-}
-
-/* Estilizando a opção selecionada */
-select option:checked {
-    background-color: #f0f0f0;
-    /* Cor de fundo da opção selecionada */
-    font-weight: bold;
-    /* Opção selecionada em negrito */
+    margin-bottom: +20px;
 }
 
 input {
